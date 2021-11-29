@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WORD RELAY</title>
+    <link rel="stylesheet" href="../1129/css/reset.css" />
+    <link rel="stylesheet" href="/teacher/1129/css/layout.css" />
+    <script src="../1129/js/gsap/gsap.min.js"></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>
+        <span class="main">WORD RELAY</span>
+      </h1>
+      <!-- <div id="suggestWord"></div> -->
+      <div id="writtenWord">
+        <!-- <ul></ul> -->
+      </div>
+
+      <div class="inputBox">
+        <input type="text" id="word" />
+      </div>
+    </div>
+  </body>
+  <script>
+    const suggestWord = document.querySelector("#suggestWord");
+    const word = document.querySelector("#word");
+    const writtenWord = document.querySelector("#writtenWord");
+    const writtenWordArray = []; //입력한 글자 저장하기 위한 배열
+    const firstWordArray = ["하와이", "무지개", "해질녘", "토마토", "고등어"];
+    writtenWordArray.push(firstWordArray[Math.floor(Math.random() * firstWordArray.length)]);
+    let writtenWordArrayView = [...writtenWordArray];
+    function clear() {
+      word.value = "";
+      word.focus();
+    }
+    function addLi() {
+      writtenWordArray.push(word.value);
+      writtenWordArrayView.push(word.value);
+      writtenWordUl.innerHTML = "";
+      writtenWordArrayView.forEach(function (item, index) {
+        writtenWordUl.innerHTML += `<li>${item}</li>`;
+      });
+      clear();
+    }
+    // 머리가 안 돌아간다 빙글빙글 돌아가는 짱돌짱돌짱돌 데굴데굴 굴러가는 멧돌멧돌멧돌
+    let num = 1;
+    writtenWord.innerHTML += `<ul id=${num}></ul>`;
+    let writtenWordUl = document.getElementById(num);
+    console.log(writtenWordUl);
+    //배열 순회 itterarion
+    writtenWordArray.forEach(function (item, index) {
+      console.log(item);
+      writtenWordUl.innerHTML += `<li>${item}</li>`;
+    });
+
+    word.addEventListener("keyup", function (e) {
+      if (e.keyCode === 13 || e.key === "Enter") {
+        let num = writtenWord.childElementCount;
+        if (word.value.length != 3) {
+          clear();
+          gsap.fromTo(word, { x: 100 }, { x: 0, ease: "elastic", duration: 0.5 });
+          //   alert("3자리 단어를 입력하시오.");
+        } else {
+          const firstChar = word.value.charAt(0); //자릿수에 해당하는 글자를 반환
+          const lastWord = writtenWordArray[writtenWordArray.length - 1];
+          const lastChar = lastWord.charAt(lastWord.length - 1);
+
+          if (firstChar !== lastChar) {
+            clear();
+            gsap.fromTo(word, { x: 100 }, { x: 0, ease: "elastic", duration: 0.5 });
+            // alert("단어가 이어지지 않습니다.");
+          } else {
+            if (writtenWordArray.includes(word.value)) {
+              clear();
+              gsap.fromTo(word, { x: 100 }, { x: 0, ease: "elastic", duration: 0.5 });
+              //   alert("이미 입력한 단어입니다.");
+            } else {
+              if (writtenWordUl.childElementCount > 9) {
+                num++;
+                writtenWord.innerHTML += `<ul id=${num}></ul>`;
+                writtenWordUl = document.getElementById(num);
+                writtenWordArrayView = [];
+
+                addLi();
+
+                console.log(writtenWordArray);
+                console.log(writtenWordArrayView);
+              } else {
+                addLi();
+
+                console.log(writtenWordUl.childElementCount);
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const fruits = ["apple", "banana", "kiwi"];
+    console.log(fruits.includes("hfjhdjks"));
+
+    /*
+    1. 주어진 단어의 마지막 글자와 입력하는 글자의 첫글자가 같으면
+    2. suggestWord의 글자는 입력한 글자로 바뀌고
+    3. word의 내용은 공백으로 바뀌면서 focus가 들어가도록 코딩...
+    4. 입력하는 글자는 3글자이어야 한다. 그렇지 않으면 경고창 띄우기...
+    */
+  </script>
+</html>

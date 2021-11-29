@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <div class="test">
+        <a href=""></a>
+      </div>
+      <input type="text" id="userID" placeholder="아이디를 8자 이상 입력하시오." />
+      <p class="info"></p>
+    </div>
+  </body>
+  <script>
+    const testTxt = "javascript 뿜빰뿡 호랑나비";
+    console.log(testTxt.substr(0, 4));
+    const testA = document.querySelector(".test a");
+    testA.textContent = testTxt.trim().substr(0, 5) + "....";
+    //대부분의 스크립트 언어는 공통으로 가지고 있다.
+    //.trim() 공백을 자름 / length 글자의 갯수
+
+    console.log(testTxt.charAt(testTxt.length - 1)); //charAt해당되는 칸에 어떤 글자가 들어있는지
+
+    const userID = document.querySelector("#userID");
+    const info = document.querySelector(".info");
+    userID.addEventListener("keyup", (e) => {
+      if (userID.value.length < 8) {
+        info.textContent = "ID가 8글자가 되지 않습니다.";
+      } else {
+        info.textContent = "ID가 8글자입니다.";
+      }
+      if (e.keycode === 13 || e.key === "Enter") {
+        if (userID.value.length < 8) {
+          alert("아이디 8자리 이상 써야 함. ");
+          userID.value = "";
+        } else {
+          userID.value = "";
+        }
+      }
+    });
+  </script>
+</html>

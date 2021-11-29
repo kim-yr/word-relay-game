@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>끝말잇기</title>
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+  </head>
+  <body>
+    <div id="wrap">
+      <h1><span class="main">WORD GAME</span></h1>
+      <div class="suggestWord"></div>
+      <div id="writtenWord">
+        <ul>
+          <li>호랑이</li>
+        </ul>
+      </div>
+      <input type="text" id="word" />
+    </div>
+  </body>
+
+  <script>
+    const suggestWord = document.querySelector(".suggestWord");
+    const userWord = document.querySelector("#word");
+    const writtenWord = document.querySelector("#writtenWord");
+    const firstWordArray = ["알로하", "호랑이", "해질녘", "오징어", "햄버거"];
+    let randFisrtWord = firstWordArray[Math.floor(Math.random() * firstWordArray.length)];
+    const writtenWordArray = [randFisrtWord];
+    suggestWord.textContent = randFisrtWord;
+    writtenWord.textContent = writtenWordArray[0];
+    userWord.addEventListener("keyup", (e) => {
+      if (e.keycode === 13 || e.key === "Enter") {
+        const lastChar = suggestWord.textContent.charAt(suggestWord.textContent.length - 1);
+        const firstChar = userWord.value.charAt(0);
+
+        if (userWord.value.length != 3) {
+          alert("3글자 단어를 입력하시오.");
+          userWord.value = "";
+        } else {
+          if (lastChar === firstChar) {
+            if (writtenWordArray.includes(userWord.value)) {
+              alert("중복되는 단어입니다.");
+              userWord.value = "";
+              userWord.focus();
+            } else {
+              suggestWord.textContent = userWord.value;
+              writtenWordArray.push(userWord.value);
+              console.log(writtenWordArray);
+              writtenWord.textContent = writtenWord.textContent + " " + userWord.value;
+              userWord.value = "";
+              userWord.focus();
+            }
+          } else {
+            alert("끝말이 이어지지 않습니다.");
+            userWord.value = "";
+            userWord.focus();
+          }
+        }
+      }
+    });
+  </script>
+</html>
